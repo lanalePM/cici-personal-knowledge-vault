@@ -1,0 +1,37 @@
+{
+  "name": "cici",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "extension:zip": "powershell -NoProfile -Command \"$d='extension'; if (!(Test-Path $d)) { throw 'Run from cici repo root' }; Compress-Archive -Path $d -DestinationPath ('cici-extension.zip') -Force\""
+  },
+  "dependencies": {
+    "@google/genai": "^1.44.0",
+    "@mozilla/readability": "^0.5.0",
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.49.1",
+    "cheerio": "^1.0.0",
+    "jsdom": "^26.0.0",
+    "lucide-react": "^0.474.0",
+    "next": "^15.1.0",
+    "pdf-parse": "^1.1.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.1.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0"
+  }
+}

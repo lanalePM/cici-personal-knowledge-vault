@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    :root {
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F5;
+      --bg-hover: #EFEFED;
+      --text-primary: #1A1A1A;
+      --text-secondary: #6B6B6B;
+      --text-tertiary: #9B9B9B;
+      --accent: #2F6EEB;
+      --accent-hover: #1D5BD6;
+      --accent-light: #EBF1FD;
+      --border: #E3E3E0;
+      --error: #EB5757;
+      --success: #27AE60;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 320px;
+      min-height: 200px;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .container { padding: 16px; }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .header .icon { color: var(--accent); font-size: 16px; }
+    .header h1 { font-size: 15px; font-weight: 600; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .tab {
+      flex: 1;
+      padding: 7px 8px;
+      font-size: 13px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      color: var(--text-secondary);
+      text-align: center;
+      border-radius: 0;
+      transition: all 0.15s;
+    }
+    .tab:hover { color: var(--text-primary); }
+    .tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      font-weight: 500;
+    }
+    .tab:disabled {
+      color: var(--text-tertiary);
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+
+    /* Page info */
+    .page-title {
+      font-size: 14px;
+      font-weight: 600;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 2px;
+    }
+    .page-domain {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    /* Selection preview */
+    .selection-preview {
+      background: var(--bg-secondary);
+      border-left: 3px solid var(--accent);
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      border-radius: 0 4px 4px 0;
+      font-size: 13px;
+      font-style: italic;
+      color: var(--text-primary);
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+    .selection-source {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    /* Note */
+    .note-field {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-secondary);
+      resize: none;
+      font-family: inherit;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    .note-field:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(47, 110, 235, 0.15);
+    }
+    .note-field::placeholder { color: var(--text-tertiary); }
+
+    /* Buttons */
+    .btn-save {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: var(--accent);
+      color: white;
+      transition: all 0.15s;
+    }
+    .btn-save:hover { background: var(--accent-hover); }
+    .btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-save.success {
+      background: var(--success);
+    }
+
+    /* Duplicate banner */
+    .duplicate-banner {
+      background: #FFF8E1;
+      border: 1px solid #FFE082;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 13px;
+      margin-bottom: 12px;
+      display: none;
+    }
+    .duplicate-banner.visible { display: block; }
+    .duplicate-banner a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .duplicate-banner a:hover { text-decoration: underline; }
+    .duplicate-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 6px;
+    }
+    .duplicate-actions button {
+      background: none;
+      border: none;
+      font-size: 13px;
+      cursor: pointer;
+      padding: 0;
+      font-weight: 500;
+    }
+    .duplicate-actions .save-anyway { color: var(--accent); }
+    .duplicate-actions .view-item { color: var(--text-secondary); }
+
+    /* Error */
+    .error-msg {
+      color: var(--error);
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
+    }
+    .error-msg.visible { display: block; }
+
+    /* Vault count */
+    .vault-count {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .vault-count a {
+      color: var(--text-tertiary);
+      text-decoration: none;
+    }
+    .vault-count a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    /* Login state */
+    .login-state {
+      text-align: center;
+      padding: 24px 16px;
+    }
+    .login-state .icon { font-size: 28px; color: var(--accent); margin-bottom: 12px; }
+    .login-state p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .btn-login {
+      display: inline-block;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+    }
+    .btn-login:hover { background: var(--accent-hover); }
+
+    /* Settings link */
+    .settings-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+    }
+    .settings-row button {
+      background: none;
+      border: none;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      padding: 0;
+    }
+    .settings-row button:hover { color: var(--error); }
+
+    /* Loading state */
+    .loading-state {
+      text-align: center;
+      padding: 32px 16px;
+    }
+    .loading-state .icon {
+      font-size: 24px;
+      color: var(--accent);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    .loading-state p {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-top: 8px;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <!-- Loading state (visible by default) -->
+  <div id="loading-state" class="loading-state">
+    <div class="icon">✦</div>
+    <p>Loading...</p>
+  </div>
+
+  <!-- Login state -->
+  <div id="login-state" class="login-state hidden">
+    <div class="icon">✦</div>
+    <p>Log in to Cici to start saving.</p>
+    <a id="login-btn" class="btn-login" href="#" target="_blank">Log in</a>
+  </div>
+
+  <!-- Main state -->
+  <div id="main-state" class="container hidden">
+    <div class="header">
+      <span class="icon">✦</span>
+      <h1>Cici me</h1>
+    </div>
+
+    <div class="settings-row">
+      <button id="logout-btn">Disconnect</button>
+    </div>
+
+    <div class="tabs">
+      <button id="tab-page" class="tab active">🔗 Save this page</button>
+      <button id="tab-selection" class="tab" disabled>📝 Save selection</button>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Save page content -->
+    <div id="content-page">
+      <div class="page-title" id="page-title"></div>
+      <div class="page-domain" id="page-domain"></div>
+    </div>
+
+    <!-- Save selection content -->
+    <div id="content-selection" class="hidden">
+      <div class="selection-preview" id="selection-text"></div>
+      <div class="selection-source">From: <span id="selection-domain"></span></div>
+    </div>
+
+    <div class="duplicate-banner" id="duplicate-banner">
+      You already saved this page.
+      <div class="duplicate-actions">
+        <button class="save-anyway" id="save-anyway-btn">Save anyway</button>
+        <a class="view-item" id="view-item-link" href="#" target="_blank">View in vault →</a>
+      </div>
+    </div>
+
+    <textarea id="note-field" class="note-field" rows="2" placeholder="Add a note (optional)"></textarea>
+
+    <button id="save-btn" class="btn-save">Save to vault</button>
+    <div id="error-msg" class="error-msg"></div>
+
+    <div class="vault-count" id="vault-count-section">
+      <a id="vault-link" href="#" target="_blank">Your vault: <span id="vault-count">0</span> items</a>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
