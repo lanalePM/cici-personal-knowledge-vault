@@ -6,4 +6,4 @@
  *
  * After changing this value, reload the extension in chrome://extensions
  */
-const CICI_API_BASE = "http://localhost:3000";
+const CICI_API_BASE = "https://cici-personal-knowledge-vault.vercel.app";
