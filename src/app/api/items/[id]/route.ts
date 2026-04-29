@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { normalizeTagName } from "@/lib/tags/normalize-tag";
 
 export async function GET(
   _request: NextRequest,
@@ -52,18 +53,23 @@ export async function PATCH(
 
   // Add tag
   if (body.add_tag) {
+    const canonical = normalizeTagName(String(body.add_tag));
+    if (!canonical) {
+      return NextResponse.json({ error: "Invalid tag" }, { status: 400 });
+    }
+
     // Get or create tag
     let { data: tag } = await supabase
       .from("tags")
       .select("id")
       .eq("user_id", user.id)
-      .eq("name", body.add_tag)
+      .eq("name", canonical)
       .single();
 
     if (!tag) {
       const { data: newTag, error: tagError } = await supabase
         .from("tags")
-        .insert({ user_id: user.id, name: body.add_tag })
+        .insert({ user_id: user.id, name: canonical })
         .select()
         .single();
       if (tagError) return NextResponse.json({ error: tagError.message }, { status: 500 });

@@ -49,18 +49,39 @@ export default function EmptyState({ onAddToVault, onSaved }: EmptyStateProps) {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-56px)]">
-      <div className="max-w-sm text-center p-8">
-        <div className="text-4xl mb-4 text-accent">✦</div>
-        <h2 className="text-lg font-semibold mb-2">Save your first item</h2>
-        <p className="text-sm text-text-secondary mb-6">
-          Paste any link to get started:
+    <div className="flex items-center justify-center min-h-[calc(100vh-56px)] px-4">
+      <div className="max-w-lg w-full text-center py-12">
+
+        {/* Mark */}
+        <div className="flex justify-center mb-5">
+          <span className="text-5xl text-accent leading-none">✦</span>
+        </div>
+
+        {/* Tagline */}
+        <h1 className="text-2xl font-bold tracking-tight mb-3">
+          Save it. Understand it. Build on it.
+        </h1>
+        <p className="text-text-secondary text-sm leading-relaxed mb-8 max-w-sm mx-auto">
+          Paste any link and Cici summarizes, tags, and organizes it for you — so nothing worth keeping ever gets lost.
         </p>
 
-        <form onSubmit={handleFirstSave} className="space-y-3">
+        {/* Feature pills */}
+        <div className="flex justify-center flex-wrap gap-2 mb-10">
+          {["AI summaries", "Smart tagging", "Chat with your vault", "Content discovery"].map((f) => (
+            <span
+              key={f}
+              className="text-xs px-3 py-1.5 bg-accent/10 text-accent rounded-full font-medium"
+            >
+              {f}
+            </span>
+          ))}
+        </div>
+
+        {/* Save form */}
+        <form onSubmit={handleFirstSave} className="space-y-3 max-w-sm mx-auto">
           <input
             type="url"
-            placeholder="Paste a URL..."
+            placeholder="Paste any link to get started…"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             required
@@ -71,7 +92,7 @@ export default function EmptyState({ onAddToVault, onSaved }: EmptyStateProps) {
             disabled={loading || !url.trim()}
             className="w-full py-2.5 bg-accent hover:bg-accent-hover text-white text-sm font-medium rounded-md disabled:opacity-50 transition-colors"
           >
-            {loading ? "Saving..." : "Save to vault"}
+            {loading ? "Saving…" : "Save your first item"}
           </button>
         </form>
 
@@ -85,9 +106,9 @@ export default function EmptyState({ onAddToVault, onSaved }: EmptyStateProps) {
           </button>
         </p>
 
-        <p className="text-xs text-text-tertiary mt-6">
-          Want to save while you browse? Install the{" "}
-          <span className="text-accent">Cici me extension</span>
+        <p className="text-xs text-text-tertiary mt-8">
+          Save while you browse with the{" "}
+          <span className="text-accent font-medium">Cici extension</span>
         </p>
       </div>
     </div>

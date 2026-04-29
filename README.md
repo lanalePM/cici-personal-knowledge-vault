@@ -98,6 +98,10 @@ cici/
 └── README.md
 ```
 
+## Ask Cici (RAG chat)
+
+Open **Ask** in the top bar or go to `/ask`. Answers are grounded in your saved items. Modes: **Summarize vault** (recent items), **Topic** (search across chunk embeddings), **This item** (from a detail page). Requires running the `002_item_chunks_and_chat.sql` migration in Supabase; for existing data run `npm run chunks:backfill`. See `../docs/ask-cici-v1-spec.md`.
+
 ## Save Methods (MVP)
 
 1. **Paste link** in web app — Add to Vault modal

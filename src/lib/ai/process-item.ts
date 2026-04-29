@@ -1,5 +1,7 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { generateSummaryAndTags, generateEmbedding } from "@/lib/ai/gemini";
+import { chunkAndEmbedForItem } from "@/lib/chunks/embed-item-chunks";
+import { normalizeTagName } from "@/lib/tags/normalize-tag";
 import {
   extractContentFromUrl,
   extractTextFromPdf,
@@ -84,10 +86,21 @@ export async function processItem(itemId: string) {
 
     console.log(`[AI] Generating summary for item ${itemId} (${item.content_type}, source: ${summarySource})`);
 
+    const { data: existingTagRows } = await supabase
+      .from("tags")
+      .select("name")
+      .eq("user_id", item.user_id)
+      .order("name")
+      .limit(80);
+
+    const existingTags =
+      existingTagRows?.map((r) => r.name).filter(Boolean) ?? [];
+
     const { summary, tags } = await generateSummaryAndTags(
       textForSummary,
       isImage ? "image" : "text",
-      isImage ? item.content_ref : undefined
+      isImage ? item.content_ref : undefined,
+      { existingTags }
     );
 
     const limitedTags = tags.slice(0, 3);
@@ -103,9 +116,11 @@ export async function processItem(itemId: string) {
       })
       .eq("id", itemId);
 
+    const appliedTags = new Set<string>();
     for (const tagName of limitedTags) {
-      const normalizedTag = tagName.toLowerCase().trim();
-      if (!normalizedTag) continue;
+      const normalizedTag = normalizeTagName(tagName);
+      if (!normalizedTag || appliedTags.has(normalizedTag)) continue;
+      appliedTags.add(normalizedTag);
 
       let { data: tag } = await supabase
         .from("tags")
@@ -154,6 +169,15 @@ export async function processItem(itemId: string) {
       }
     } catch (embErr) {
       console.error(`[AI] Embedding failed (non-fatal):`, embErr);
+    }
+
+    try {
+      const chunkRes = await chunkAndEmbedForItem(itemId);
+      if (!chunkRes.ok) {
+        console.error(`[chunks] failed for ${itemId}:`, chunkRes.error);
+      }
+    } catch (chErr) {
+      console.error(`[chunks] error (non-fatal):`, chErr);
     }
 
     console.log(`[AI] Item ${itemId} processing complete`);

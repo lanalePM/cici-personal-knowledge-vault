@@ -2,19 +2,19 @@
 
 @theme {
   --color-bg-primary: #FFFFFF;
-  --color-bg-secondary: #F7F7F5;
-  --color-bg-hover: #EFEFED;
+  --color-bg-secondary: #F8F7FC;  /* off-white with a faint lavender warmth */
+  --color-bg-hover: #F0EEFA;
   --color-text-primary: #1A1A1A;
   --color-text-secondary: #6B6B6B;
   --color-text-tertiary: #9B9B9B;
-  --color-accent: #2F6EEB;
-  --color-accent-hover: #1D5BD6;
-  --color-accent-light: #EBF1FD;
+  --color-accent: #5B4FCF;        /* warm indigo — between indigo-600 and violet-600 */
+  --color-accent-hover: #4A3FBE;  /* slightly deeper on hover */
+  --color-accent-light: #F0EDFF;  /* very light lavender */
   --color-border: #E3E3E0;
   --color-error: #EB5757;
   --color-success: #27AE60;
-  --color-tag-bg: #F0EDFF;
-  --color-tag-text: #5B4FC4;
+  --color-tag-bg: #F0EDFF;        /* lavender — matches accent family */
+  --color-tag-text: #5B4FC4;      /* matches accent */
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }

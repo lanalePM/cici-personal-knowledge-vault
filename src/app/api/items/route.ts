@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const contentType = searchParams.get("content_type");
   const tag = searchParams.get("tag");
+  const folderId = searchParams.get("folder_id");
   const sort = searchParams.get("sort") || "newest";
 
   let query = supabase
@@ -82,6 +83,25 @@ export async function GET(request: NextRequest) {
     itemsWithTags = itemsWithTags.filter((item) =>
       item.tags.some((t: any) => t.name === tag)
     );
+  }
+
+  // Filter by folder — show items that have ANY tag belonging to the folder
+  if (folderId) {
+    const { data: folderTagRows } = await supabase
+      .from("folder_tags")
+      .select("tag_name")
+      .eq("folder_id", folderId);
+
+    const folderTagSet = new Set((folderTagRows || []).map((r) => r.tag_name));
+
+    if (folderTagSet.size > 0) {
+      itemsWithTags = itemsWithTags.filter((item) =>
+        item.tags.some((t: any) => folderTagSet.has(t.name))
+      );
+    } else {
+      // Folder exists but has no tags yet
+      itemsWithTags = [];
+    }
   }
 
   return NextResponse.json({ items: itemsWithTags, tags: tagsWithCounts });

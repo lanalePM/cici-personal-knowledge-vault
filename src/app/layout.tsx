@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Cici — Your personal knowledge vault",
+  title: "Cici — Your AI knowledge vault",
   description:
-    "Save, summarize, organize, and search content from across platforms.",
+    "Save it. Understand it. Build on it. Cici is your personal AI-powered knowledge vault — save articles, PDFs, and notes, then chat with everything you've saved.",
 };
 
 export default function RootLayout({

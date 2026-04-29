@@ -84,12 +84,14 @@ export default function SignUpPage() {
     <div className="min-h-screen flex items-center justify-center bg-bg-primary px-4">
       <div className="w-full max-w-[400px]">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 text-2xl font-bold mb-1">
-            <span className="text-accent">✦</span> Cici
+          <div className="flex flex-col items-center gap-1.5 mb-3">
+            <span className="text-4xl text-accent leading-none">✦</span>
+            <span className="text-2xl font-bold tracking-tight">Cici</span>
           </div>
-          <p className="text-text-secondary text-sm">
-            Your personal knowledge vault
+          <p className="text-base font-medium text-text-primary mb-1">
+            Save it. Understand it. Build on it.
           </p>
+          <p className="text-sm text-text-secondary">Your AI-powered knowledge vault</p>
         </div>
 
         <div className="border border-border rounded-xl p-8">
