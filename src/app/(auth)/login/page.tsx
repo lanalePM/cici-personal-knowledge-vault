@@ -28,7 +28,7 @@ export default function LoginPage() {
     if (authError) {
       setError(
         authError.message === "Invalid login credentials"
-          ? "Invalid email or password."
+          ? "Invalid email or password. If you signed up with a magic link, you may not have a password yet — use magic link login or reset your password below."
           : authError.message
       );
       setLoading(false);
@@ -111,6 +111,12 @@ export default function LoginPage() {
               {error && (
                 <p className="text-error text-sm">{error}</p>
               )}
+
+              <div className="flex justify-end">
+                <Link href="/forgot-password" className="text-xs text-text-tertiary hover:text-accent">
+                  Forgot password?
+                </Link>
+              </div>
 
               <button
                 type="submit"
